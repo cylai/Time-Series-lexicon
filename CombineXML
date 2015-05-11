@@ -1,0 +1,69 @@
+#/bin/bash
+
+PWD=/bin/pwd
+YEAR=2000
+WHERE=`$PWD`
+JAN=31
+FEB=29
+MAR=31
+APR=30
+MAY=31
+JUN=30
+JUL=31
+AUG=31
+SEP=30
+OCT=31
+NOV=30
+DEC=31
+
+
+#echo $WHERE
+
+#echo $WHERE
+for i in $(seq 1 12)
+do 
+    MONTH=$i
+    
+    case $MONTH in
+        1) DATE=$JAN;;
+        2) DATE=$FEB;;
+        3) DATE=$MAR;;
+        4) DATE=$APR;;
+        5) DATE=$MAY;;
+        6) DATE=$JUN;;
+        7) DATE=$JUL;;
+        8) DATE=$AUG;;
+        9) DATE=$SEP;;
+        10) DATE=$OCT;;
+        11) DATE=$NOV;;
+        12) DATE=$DEC;;
+    esac 
+
+    for j in $(seq 1 $DATE)
+    do
+
+        #cd /$YEAR/$i/$j
+      
+        if [ $i -lt 10 ]; then
+        cd ./$YEAR/0$i
+        fi
+
+        if [ $i -ge 10 ]; then
+            cd ./$YEAR/$i
+        fi
+            
+        if [ $j -lt 10 ]; then
+        cd ./0$j
+        fi
+
+        if [ $j -ge 10 ]; then
+            cd ./$j
+        fi
+            
+        $PWD
+        cat *.xml > /tmp2/cylai/DATA/${YEAR}_${i}_${j}.xml
+        cd /tmp2/cylai/DATA
+	python FirstB.py ${YEAR}_${i}_${j}
+        cd $WHERE
+    done    
+done 
